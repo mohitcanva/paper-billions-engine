@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 260" fill="none">
+  <!-- Wavy Dangling String -->
+  <path d="M 90 155
+           C 82 175, 102 195, 88 215
+           C 78 230, 95 245, 86 258"
+        stroke="#475569" stroke-width="4" stroke-linecap="round" fill="none"/>
+
+  <!-- Balloon Knot at Bottom -->
+  <polygon points="84,158 96,158 90,148" fill="#DC2626" stroke="#1E293B" stroke-width="4" stroke-linejoin="round"/>
+  <ellipse cx="90" cy="157" rx="6" ry="3" fill="#B91C1C" stroke="#1E293B" stroke-width="2"/>
+
+  <!-- Balloon Teardrop Body -->
+  <path d="M 90 150
+           C 45 150, 20 115, 20 75
+           C 20 30, 52 10, 90 10
+           C 128 10, 160 30, 160 75
+           C 160 115, 135 150, 90 150
+           Z"
+        fill="#EF4444" stroke="#1E293B" stroke-width="6" stroke-linejoin="round"/>
+
+  <!-- Sleek Vector Highlight Arc (Paper Billions Style) -->
+  <path d="M 45 40
+           C 40 55, 42 80, 52 95"
+        stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.85"/>
+  <circle cx="50" cy="30" r="4" fill="#FFFFFF" opacity="0.85"/>
+</svg>

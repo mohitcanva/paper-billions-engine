@@ -1,0 +1,25 @@
+{
+  "name": "remotion-paper-billions",
+  "version": "1.0.0",
+  "description": "Paper Billions YouTube channel style Remotion 2D flat-vector video project",
+  "scripts": {
+    "start": "remotion preview --no-open",
+    "preview": "remotion preview --no-open",
+    "build": "remotion render Video out/video.mp4",
+    "sync": "node sync_durations.js",
+    "test-sync": "node sync_durations.js"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.546",
+    "@remotion/media-utils": "^4.0.546",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.546"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.1",
+    "typescript": "^5.6.2"
+  }
+}

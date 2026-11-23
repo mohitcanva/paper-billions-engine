@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" fill="none">
+  <!-- Server Base Stand -->
+  <rect x="40" y="215" width="120" height="15" rx="4" fill="#334155" stroke="#0F172A" stroke-width="6"/>
+
+  <!-- Server Main Chassis Tower -->
+  <rect x="30" y="20" width="140" height="195" rx="10" fill="#1E293B" stroke="#0F172A" stroke-width="7"/>
+
+  <!-- Top Server Unit 1 -->
+  <g transform="translate(42, 35)">
+    <rect x="0" y="0" width="116" height="48" rx="6" fill="#0F172A" stroke="#475569" stroke-width="3"/>
+    <!-- Drive Slots -->
+    <rect x="8" y="10" width="30" height="28" rx="3" fill="#334155"/>
+    <line x1="12" y1="24" x2="34" y2="24" stroke="#64748B" stroke-width="2"/>
+    <rect x="44" y="10" width="30" height="28" rx="3" fill="#334155"/>
+    <line x1="48" y1="24" x2="70" y2="24" stroke="#64748B" stroke-width="2"/>
+    <!-- Status LEDs -->
+    <circle cx="88" cy="18" r="4" fill="#10B981"/>
+    <circle cx="102" cy="18" r="4" fill="#3B82F6"/>
+    <circle cx="88" cy="30" r="4" fill="#10B981"/>
+    <circle cx="102" cy="30" r="4" fill="#EF4444"/>
+  </g>
+
+  <!-- Middle Server Unit 2 -->
+  <g transform="translate(42, 95)">
+    <rect x="0" y="0" width="116" height="48" rx="6" fill="#0F172A" stroke="#475569" stroke-width="3"/>
+    <!-- Ventilation Grille -->
+    <line x1="12" y1="16" x2="68" y2="16" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+    <line x1="12" y1="24" x2="68" y2="24" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+    <line x1="12" y1="32" x2="68" y2="32" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+    <!-- Activity LEDs -->
+    <circle cx="86" cy="24" r="5" fill="#3B82F6"/>
+    <circle cx="100" cy="24" r="5" fill="#10B981"/>
+  </g>
+
+  <!-- Bottom Server Unit 3 -->
+  <g transform="translate(42, 155)">
+    <rect x="0" y="0" width="116" height="48" rx="6" fill="#0F172A" stroke="#475569" stroke-width="3"/>
+    <!-- Drive Slots -->
+    <rect x="8" y="10" width="30" height="28" rx="3" fill="#334155"/>
+    <rect x="44" y="10" width="30" height="28" rx="3" fill="#334155"/>
+    <!-- Power Button & Warning Indicator -->
+    <circle cx="88" cy="24" r="6" fill="#0284C7" stroke="#38BDF8" stroke-width="2"/>
+    <circle cx="102" cy="24" r="4" fill="#F59E0B"/>
+  </g>
+</svg>

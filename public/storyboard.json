@@ -1,0 +1,113 @@
+{
+  "title": "How He Built A Paper Billion Dollar Empire",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "scenes": [
+    {
+      "id": "scene_1_intro",
+      "type": "black_title_card",
+      "title": "HOW TO BUILD A BILLION DOLLAR EMPIRE",
+      "subtitle": "The untold story of viral 2D flat-vector storytelling",
+      "kicker": "EPISODE 01 // CASE STUDY",
+      "audioFile": "audio/scene1_intro.mp3",
+      "durationInSeconds": 3.5,
+      "durationInFrames": 105,
+      "accentColor": "#FACC15"
+    },
+    {
+      "id": "scene_2_character_money",
+      "type": "character_prop",
+      "headline": "THE ACCUMULATION PHASE",
+      "subtext": "Starting with zero capital and infinite curiosity",
+      "audioFile": "audio/scene2_growth.mp3",
+      "durationInSeconds": 4.2,
+      "durationInFrames": 126,
+      "character": {
+        "pose": "holding",
+        "prop": "money_bag",
+        "expression": "happy",
+        "x": 960,
+        "y": 620,
+        "scale": 2.2
+      }
+    },
+    {
+      "id": "scene_3_barchart",
+      "type": "bar_chart_explainer",
+      "headline": "EXPONENTIAL REVENUE EXPLOSION",
+      "subtext": "Year-over-year compounding growth",
+      "audioFile": "audio/scene3_server_crash.mp3",
+      "durationInSeconds": 3.8,
+      "durationInFrames": 114,
+      "character": {
+        "pose": "pointing_right",
+        "expression": "excited",
+        "x": 420,
+        "y": 640,
+        "scale": 1.9
+      },
+      "chart": {
+        "title": "ANNUAL REVENUE (MILLIONS USD)",
+        "currency": "$",
+        "unit": "M",
+        "highlightIndex": 3,
+        "bars": [
+          {
+            "label": "2021",
+            "value": 1.8,
+            "color": "#94A3B8"
+          },
+          {
+            "label": "2022",
+            "value": 6.5,
+            "color": "#64748B"
+          },
+          {
+            "label": "2023",
+            "value": 24.2,
+            "color": "#38BDF8"
+          },
+          {
+            "label": "2024",
+            "value": 68.5,
+            "color": "#10B981"
+          }
+        ]
+      }
+    },
+    {
+      "id": "scene_4_servers_balloon",
+      "type": "multi_prop_showcase",
+      "headline": "SYSTEMS SCALING & INFRASTRUCTURE",
+      "subtext": "Every bottleneck becomes a stepping stone",
+      "audioFile": "audio/scene4_outro.mp3",
+      "durationInSeconds": 3,
+      "durationInFrames": 90,
+      "character": {
+        "pose": "explaining",
+        "expression": "surprised",
+        "x": 750,
+        "y": 630,
+        "scale": 2
+      },
+      "props": [
+        {
+          "name": "server",
+          "x": 1320,
+          "y": 600,
+          "scale": 1.6
+        },
+        {
+          "name": "balloon",
+          "x": 1580,
+          "y": 420,
+          "scale": 1.3
+        }
+      ]
+    }
+  ],
+  "totalDurationInSeconds": 14.5,
+  "totalDurationInFrames": 435,
+  "updatedAt": "2026-11-23T14:26:58.019Z"
+}
