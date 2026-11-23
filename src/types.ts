@@ -20,6 +20,7 @@ export interface CharacterConfig {
   scale?: number;
   flipX?: boolean;
   audioSrc?: string;
+  audioOffsetInFrames?: number;
   isSpeaking?: boolean;
 }
 
@@ -48,9 +49,11 @@ export interface PlacedProp {
 export interface BaseScene {
   id: string;
   type: string;
-  audioFile?: string;
-  durationInSeconds: number;
+  start_time: number;
+  end_time: number;
+  durationInSeconds?: number;
   durationInFrames: number;
+  audioFile?: string;
 }
 
 export interface BlackTitleCardScene extends BaseScene {
@@ -96,6 +99,7 @@ export interface Storyboard {
   fps: number;
   width: number;
   height: number;
+  audioFile?: string;
   scenes: StoryboardScene[];
   totalDurationInSeconds: number;
   totalDurationInFrames: number;

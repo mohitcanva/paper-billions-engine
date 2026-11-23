@@ -12,19 +12,21 @@ import { Storyboard } from './types';
 export const RemotionRoot: React.FC = () => {
   const storyboard = storyboardData as Storyboard;
 
-  // Calculate total frames dynamically from storyboard scenes
-  const totalFrames = storyboard.scenes.reduce(
+  // Calculate total frames dynamically from storyboard scenes or audio total
+  const calculatedSceneFrames = storyboard.scenes.reduce(
     (sum, scene) => sum + (scene.durationInFrames || 90),
     0
   );
 
+  const totalFrames = storyboard.totalDurationInFrames || calculatedSceneFrames || 435;
+
   return (
     <>
-      {/* Main Full-Length Video Composition */}
+      {/* Main Full-Length Video Composition with Single Continuous Narration */}
       <Composition
         id="Video"
         component={Video}
-        durationInFrames={totalFrames || 435}
+        durationInFrames={totalFrames}
         fps={storyboard.fps || 30}
         width={storyboard.width || 1920}
         height={storyboard.height || 1080}
@@ -50,13 +52,13 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
 
-      {/* Component Sandbox: Paper Billions Character */}
+      {/* Component Sandbox: Paper Billions Character with Continuous Audio Sync */}
       <Composition
         id="CharacterDemo"
         component={() => (
           <SceneContainer
             headline="CHARACTER ANIMATION ENGINE"
-            subtext="Clean 2D vector bean body with audio-synced mouth movement"
+            subtext="Clean 2D vector bean body with continuous audio-synced mouth movement"
           >
             <Character
               pose="holding"
@@ -65,7 +67,8 @@ export const RemotionRoot: React.FC = () => {
               x={960}
               y={560}
               scale={2.2}
-              audioSrc={staticFile('audio/scene2_growth.mp3')}
+              audioSrc={staticFile('audio/full_voiceover.mp3')}
+              audioOffsetInFrames={105}
             />
           </SceneContainer>
         )}

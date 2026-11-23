@@ -3,26 +3,29 @@
   "fps": 30,
   "width": 1920,
   "height": 1080,
+  "audioFile": "audio/full_voiceover.mp3",
   "scenes": [
     {
       "id": "scene_1_intro",
       "type": "black_title_card",
+      "start_time": 0,
+      "end_time": 3.5,
+      "durationInSeconds": 3.5,
+      "durationInFrames": 105,
       "title": "HOW TO BUILD A BILLION DOLLAR EMPIRE",
       "subtitle": "The untold story of viral 2D flat-vector storytelling",
       "kicker": "EPISODE 01 // CASE STUDY",
-      "audioFile": "audio/scene1_intro.mp3",
-      "durationInSeconds": 3.5,
-      "durationInFrames": 105,
       "accentColor": "#FACC15"
     },
     {
       "id": "scene_2_character_money",
       "type": "character_prop",
-      "headline": "THE ACCUMULATION PHASE",
-      "subtext": "Starting with zero capital and infinite curiosity",
-      "audioFile": "audio/scene2_growth.mp3",
+      "start_time": 3.5,
+      "end_time": 7.7,
       "durationInSeconds": 4.2,
       "durationInFrames": 126,
+      "headline": "THE ACCUMULATION PHASE",
+      "subtext": "Starting with zero capital and infinite curiosity",
       "character": {
         "pose": "holding",
         "prop": "money_bag",
@@ -35,11 +38,12 @@
     {
       "id": "scene_3_barchart",
       "type": "bar_chart_explainer",
-      "headline": "EXPONENTIAL REVENUE EXPLOSION",
-      "subtext": "Year-over-year compounding growth",
-      "audioFile": "audio/scene3_server_crash.mp3",
+      "start_time": 7.7,
+      "end_time": 11.5,
       "durationInSeconds": 3.8,
       "durationInFrames": 114,
+      "headline": "EXPONENTIAL REVENUE EXPLOSION",
+      "subtext": "Year-over-year compounding growth",
       "character": {
         "pose": "pointing_right",
         "expression": "excited",
@@ -79,11 +83,12 @@
     {
       "id": "scene_4_servers_balloon",
       "type": "multi_prop_showcase",
-      "headline": "SYSTEMS SCALING & INFRASTRUCTURE",
-      "subtext": "Every bottleneck becomes a stepping stone",
-      "audioFile": "audio/scene4_outro.mp3",
+      "start_time": 11.5,
+      "end_time": 14.5,
       "durationInSeconds": 3,
       "durationInFrames": 90,
+      "headline": "SYSTEMS SCALING & INFRASTRUCTURE",
+      "subtext": "Every bottleneck becomes a stepping stone",
       "character": {
         "pose": "explaining",
         "expression": "surprised",
@@ -109,5 +114,5 @@
   ],
   "totalDurationInSeconds": 14.5,
   "totalDurationInFrames": 435,
-  "updatedAt": "2026-11-23T14:26:58.019Z"
+  "updatedAt": "2026-11-23T14:55:42.307Z"
 }

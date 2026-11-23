@@ -7,6 +7,7 @@ import { MoneyBagProp, BalloonProp, ServerProp } from './Props';
 export interface CharacterProps extends CharacterConfig {
   className?: string;
   style?: React.CSSProperties;
+  audioOffsetInFrames?: number;
 }
 
 export const Character: React.FC<CharacterProps> = ({
@@ -18,6 +19,7 @@ export const Character: React.FC<CharacterProps> = ({
   scale = 1,
   flipX = false,
   audioSrc,
+  audioOffsetInFrames = 0,
   isSpeaking = false,
   className,
   style,
@@ -41,9 +43,11 @@ export const Character: React.FC<CharacterProps> = ({
   let volume = 0;
   if (audioSrc && audioData) {
     try {
+      // Sample audio at current scene frame offset into the continuous track
+      const sampleFrame = Math.max(0, frame + audioOffsetInFrames);
       const samples = visualizeAudio({
         fps,
-        frame,
+        frame: sampleFrame,
         audioData,
         numberOfSamples: 16,
       });

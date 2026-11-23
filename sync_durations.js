@@ -1,10 +1,12 @@
 /**
  * sync_durations.js
  * 
- * Automatically measures the duration of MP3 audio files referenced in public/storyboard.json
- * and synchronizes the durationInSeconds and durationInFrames for each scene.
+ * Automatically measures the duration of the continuous narration audio
+ * (public/audio/full_voiceover.mp3) and synchronizes storyboard.json:
  * 
- * Works using ffprobe (if available), ffmpeg, or fallback parsing.
+ * 1. Measures full_voiceover.mp3 duration and sets total composition duration
+ * 2. Calculates each scene's durationInFrames from (end_time - start_time) at target FPS (30 fps)
+ * 3. Updates public/storyboard.json and displays a formatted scene timeline table
  */
 
 const fs = require('fs');
@@ -29,7 +31,7 @@ function getAudioDuration(filePath) {
       return duration;
     }
   } catch (e) {
-    // ffprobe failed or not installed, try ffmpeg
+    // ffprobe failed or not installed, fallback to ffmpeg
   }
 
   // 2. Try ffmpeg fallback
@@ -61,7 +63,7 @@ function getAudioDuration(filePath) {
 
 function syncDurations() {
   console.log('====================================================');
-  console.log('  PAPER BILLIONS: Storyboard Audio Duration Sync    ');
+  console.log('  PAPER BILLIONS: Continuous Audio Timeline Sync    ');
   console.log('====================================================\n');
 
   if (!fs.existsSync(STORYBOARD_PATH)) {
@@ -74,73 +76,85 @@ function syncDurations() {
 
   const fps = storyboard.fps || 30;
   console.log(`Target FPS: ${fps}`);
-  console.log(`Audio Directory: ${AUDIO_DIR}\n`);
 
-  let totalFrames = 0;
-  let totalSeconds = 0;
+  // 1. Resolve continuous narration audio file
+  const audioRel = storyboard.audioFile || 'audio/full_voiceover.mp3';
+  let fullAudioPath = path.join(PROJECT_ROOT, 'public', audioRel.replace(/^\/?(public\/)?/, ''));
 
+  if (!fs.existsSync(fullAudioPath)) {
+    const fallbackPath = path.join(AUDIO_DIR, 'full_voiceover.mp3');
+    if (fs.existsSync(fallbackPath)) {
+      fullAudioPath = fallbackPath;
+    }
+  }
+
+  let totalAudioSeconds = 0;
+  let totalAudioFrames = 0;
+
+  if (fs.existsSync(fullAudioPath)) {
+    totalAudioSeconds = getAudioDuration(fullAudioPath);
+    totalAudioFrames = Math.round(totalAudioSeconds * fps);
+    console.log(`Continuous Audio File: ${path.basename(fullAudioPath)}`);
+    console.log(`Measured Audio Duration: ${totalAudioSeconds.toFixed(2)}s (${totalAudioFrames} frames @ ${fps}fps)\n`);
+  } else {
+    console.warn(`[!] Narration audio file not found at: ${fullAudioPath}`);
+    console.warn('    Using sum of scene durations as fallback.\n');
+  }
+
+  let accumulatedTime = 0;
+  let accumulatedFrames = 0;
   const summary = [];
 
   storyboard.scenes = storyboard.scenes.map((scene, index) => {
-    let durationSec = scene.durationInSeconds;
+    // Ensure start_time and end_time exist
+    let start = scene.start_time !== undefined ? parseFloat(scene.start_time) : accumulatedTime;
+    let end = scene.end_time !== undefined ? parseFloat(scene.end_time) : start + (scene.durationInSeconds || 3);
 
-    if (scene.audioFile) {
-      // Resolve path: supports "audio/file.mp3", "public/audio/file.mp3", or just "file.mp3"
-      let audioPath = path.isAbsolute(scene.audioFile)
-        ? scene.audioFile
-        : path.join(PROJECT_ROOT, 'public', scene.audioFile.replace(/^\/?(public\/)?/, ''));
-
-      if (!fs.existsSync(audioPath)) {
-        // Try inside public/audio/
-        const basename = path.basename(scene.audioFile);
-        const fallbackPath = path.join(AUDIO_DIR, basename);
-        if (fs.existsSync(fallbackPath)) {
-          audioPath = fallbackPath;
-        }
-      }
-
-      if (fs.existsSync(audioPath)) {
-        try {
-          durationSec = getAudioDuration(audioPath);
-        } catch (err) {
-          console.error(`Failed to measure duration for ${scene.audioFile}:`, err.message);
-        }
-      } else {
-        console.warn(`[!] Audio file referenced does not exist: ${scene.audioFile}`);
-      }
+    // If this is the last scene and we measured the full audio, ensure it spans to the end
+    if (index === storyboard.scenes.length - 1 && totalAudioSeconds > 0 && end < totalAudioSeconds) {
+      end = parseFloat(totalAudioSeconds.toFixed(2));
     }
 
-    // Add minimal pad or buffer if desired (e.g. at least 1s)
-    durationSec = Math.max(1, durationSec || 3);
+    const durationSec = Math.max(0.1, end - start);
     const durationFrames = Math.round(durationSec * fps);
+    const startFrame = Math.round(start * fps);
 
+    scene.start_time = parseFloat(start.toFixed(2));
+    scene.end_time = parseFloat(end.toFixed(2));
     scene.durationInSeconds = parseFloat(durationSec.toFixed(2));
     scene.durationInFrames = durationFrames;
-
-    totalFrames += durationFrames;
-    totalSeconds += scene.durationInSeconds;
 
     summary.push({
       Index: index + 1,
       ID: scene.id,
       Type: scene.type,
-      Audio: scene.audioFile ? path.basename(scene.audioFile) : '(none)',
-      Seconds: `${scene.durationInSeconds}s`,
-      Frames: durationFrames,
+      'Start (s)': `${scene.start_time}s`,
+      'End (s)': `${scene.end_time}s`,
+      'Duration (s)': `${scene.durationInSeconds}s`,
+      'Frames': durationFrames,
+      'Start Frame': startFrame,
     });
+
+    accumulatedTime = end;
+    accumulatedFrames += durationFrames;
 
     return scene;
   });
 
-  storyboard.totalDurationInSeconds = parseFloat(totalSeconds.toFixed(2));
-  storyboard.totalDurationInFrames = totalFrames;
+  // Set total composition duration to length of full_voiceover.mp3 (or sum of scenes)
+  const finalTotalSeconds = totalAudioSeconds > 0 ? totalAudioSeconds : accumulatedTime;
+  const finalTotalFrames = totalAudioFrames > 0 ? totalAudioFrames : accumulatedFrames;
+
+  storyboard.totalDurationInSeconds = parseFloat(finalTotalSeconds.toFixed(2));
+  storyboard.totalDurationInFrames = finalTotalFrames;
+  storyboard.audioFile = audioRel;
   storyboard.updatedAt = new Date().toISOString();
 
   fs.writeFileSync(STORYBOARD_PATH, JSON.stringify(storyboard, null, 2), 'utf-8');
 
   console.table(summary);
   console.log(`\n Total Scenes: ${storyboard.scenes.length}`);
-  console.log(` Total Video Duration: ${totalSeconds.toFixed(2)}s (${totalFrames} frames @ ${fps}fps)`);
+  console.log(` Total Video Duration: ${storyboard.totalDurationInSeconds}s (${storyboard.totalDurationInFrames} frames @ ${fps}fps)`);
   console.log(` Updated ${STORYBOARD_PATH} successfully!\n`);
 }
 
